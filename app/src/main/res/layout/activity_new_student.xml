@@ -5,18 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:padding="30dp"
     tools:context=".NewStudent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="20dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Student Entry"
+            android:text="New Student Entry"
+            android:fontFamily="@font/gotham_fonts"
+            android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_gravity="center_horizontal"
@@ -31,6 +34,7 @@
                 android:id="@+id/student_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="10dp"
                 android:inputType="textPersonName" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -43,6 +47,7 @@
                 android:id="@+id/parent_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="10dp"
                 android:inputType="textPersonName" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,6 +66,7 @@
                     android:id="@+id/mobile_number1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
                     android:inputType="phone" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,6 +80,7 @@
                     android:id="@+id/mobile_number2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
                     android:inputType="phone" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -87,6 +94,7 @@
                 android:id="@+id/parent_occupation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="10dp"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -99,6 +107,7 @@
                 android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="10dp"
                 android:inputType="textMultiLine" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -111,6 +120,7 @@
                 android:id="@+id/school_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="10dp"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -123,6 +133,7 @@
                 android:id="@+id/date_of_birth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="10dp"
                 android:inputType="date" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -135,6 +146,7 @@
                 android:id="@+id/email_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="10dp"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -143,6 +155,7 @@
             android:id="@+id/submit_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/button3"
             android:text="Submit"
             android:layout_marginTop="24dp"/>
 

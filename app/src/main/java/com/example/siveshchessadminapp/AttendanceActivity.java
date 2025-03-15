@@ -1,6 +1,10 @@
 package com.example.siveshchessadminapp;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
+import android.content.Context;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,6 +57,17 @@ public class AttendanceActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle error
+            }
+        });
+
+        Button generatePdfButton =  findViewById(R.id.generate_pdf_button);
+        generatePdfButton.setOnClickListener(v -> {
+            Context context = this; // Get the context
+            if (context != null) {
+                // Use the context
+                String date = AttendancePdfGenerator.getCurrentDateAsString();
+                AttendancePdfGenerator pdfGenerator = new AttendancePdfGenerator(context, studentList, date);
+                pdfGenerator.generatePdf();
             }
         });
     }
