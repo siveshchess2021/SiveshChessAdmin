@@ -1,0 +1,49 @@
+[versions]
+agp = "8.6.0"
+androidGifDrawable = "1.2.23"
+cardview = "1.0.0"
+firebaseBom = "33.10.0"
+googleGoogleServices = "4.3.10"
+googleServices = "4.4.2"
+googleServicesVersion = "4.4.0"
+gradle = "8.2.2"
+gradleVersion = "8.6.0"
+hiltAndroidGradlePlugin = "2.40.5"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+appcompat = "1.7.0"
+library = "2.1.4"
+material = "1.12.0"
+activity = "1.9.3"
+constraintlayout = "2.2.1"
+materialVersion = "1.2.5"
+firebaseStorage = "21.0.1"
+firebaseDatabase = "21.0.0"
+
+[libraries]
+android-gif-drawable = { module = "pl.droidsonroids.gif:android-gif-drawable", version.ref = "androidGifDrawable" }
+cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+google-firebase-database = { module = "com.google.firebase:firebase-database" }
+google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
+google-services-v4310 = { module = "com.google.gms:google-services", version.ref = "googleGoogleServices" }
+google-services-v440 = { module = "com.google.gms:google-services", version.ref = "googleServicesVersion" }
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+gradle-v742 = { module = "com.android.tools.build:gradle", version.ref = "gradleVersion" }
+hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hiltAndroidGradlePlugin" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+library = { module = "com.rengwuxian.materialedittext:library", version.ref = "library" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+rey5137-material = { module = "com.github.rey5137:material", version.ref = "materialVersion" }
+firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
+firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+

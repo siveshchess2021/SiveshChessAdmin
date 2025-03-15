@@ -1,0 +1,9 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.SiveshChessAdminApp" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+         <item name="colorPrimary">@color/cardview_light_background</item>
+    </style>
+
+    <style name="Theme.SiveshChessAdminApp" parent="Base.Theme.SiveshChessAdminApp" />
+</resources>

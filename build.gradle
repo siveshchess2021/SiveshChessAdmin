@@ -1,0 +1,15 @@
+buildscript {
+    repositories {
+        google() // Add Google's Maven repository
+        mavenCentral() // Add Maven Central
+    }
+    dependencies {
+        classpath libs.gradle.v742 // Or the version you need
+        classpath 'com.google.gms:google-services:4.4.2' // Or the latest version
+    }
+}
+
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
