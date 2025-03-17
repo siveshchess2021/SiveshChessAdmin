@@ -7,9 +7,25 @@
     android:padding="8dp"
     tools:context=".ViewStudents">
 
+    <TextView
+        android:id="@+id/texttemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20sp"
+        android:text="View Students"
+        android:gravity="center"
+        android:fontFamily="@font/gotham_fonts"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/student_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:padding="20sp"/>
 
 </LinearLayout>

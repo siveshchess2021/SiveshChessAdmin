@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="4dp"
+    app:cardCornerRadius="10dp"
     app:cardElevation="4dp">
 
     <LinearLayout
@@ -15,10 +15,12 @@
 
         <TextView
             android:id="@+id/student_name_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="12dp"/>
 
         <RadioGroup
             android:id="@+id/attendance_radio_group"
@@ -30,13 +32,28 @@
                 android:id="@+id/present_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Present" />
+                android:text="Present"
+                android:textSize="16sp"
+                android:paddingStart="32dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp"
+                android:button="@drawable/radio_checked"
+                android:textColor="@drawable/radio_button_text_color" />
 
             <RadioButton
                 android:id="@+id/absent_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Absent" />
+                android:text="Absent"
+                android:textSize="16sp"
+                android:paddingStart="32dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp"
+                android:button="@drawable/radio_unchecked"
+                android:layout_marginStart="16dp"
+                android:textColor="@drawable/absent_radio_button_text_color" />
         </RadioGroup>
 
     </LinearLayout>

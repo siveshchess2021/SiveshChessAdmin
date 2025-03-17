@@ -40,17 +40,17 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     public void onBindViewHolder(@NonNull StudentViewHolder holder, int position) {
         Student student = studentList.get(position);
         holder.studentNameTextView.setText(student.getName());
-        holder.parentNameTextView.setText("Parent: " + student.getParentName());
-        holder.mobileNumberTextView.setText("Mobile: " + student.getMobileNumber1());
-        holder.parentOccupation.setText("Parent Occupation: " + student.getParentOccupation());
-        holder.address.setText("Address: " + student.getAddress());
+        holder.parentNameTextView.setText("Parent         : " + student.getParentName());
+        holder.mobileNumberTextView.setText("Mobile         : " + student.getMobileNumber1());
+        holder.parentOccupation.setText("Occupation : " + student.getParentOccupation());
+        holder.address.setText("Address       : " + student.getAddress());
         holder.schoolName.setText("School name: " + student.getSchoolName());
-        holder.ageTextView.setText("Age: " + student.getMobileNumber1());
-        holder.dob.setText("DOB: " + student.getDateOfBirth());
+//        holder.ageTextView.setText("Age        : " + student.getMobileNumber1());
+        holder.dob.setText("DOB              : " + student.getDateOfBirth());
 
         int age = calculateAge(student.getDateOfBirth());
         if (age >= 0) {
-            holder.ageTextView.setText("Age: " + age);
+            holder.ageTextView.setText("Age               : " + age);
         } else {
             holder.ageTextView.setText("Invalid DOB");
         }

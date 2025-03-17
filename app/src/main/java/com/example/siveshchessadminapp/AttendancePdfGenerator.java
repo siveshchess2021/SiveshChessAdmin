@@ -24,6 +24,7 @@ public class AttendancePdfGenerator {
     private Context context;
     private List<Student> studentList;
     private String dateString;
+    private final int STUDENTS_PER_PAGE = 15;
 
     public AttendancePdfGenerator(Context context, List<Student> studentList, String dateString) {
         this.context = context;
@@ -33,57 +34,144 @@ public class AttendancePdfGenerator {
 
     public void generatePdf() {
         PdfDocument document = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(595, 842, 1).create(); // A4 size
-        PdfDocument.Page page = document.startPage(pageInfo);
-        Canvas canvas = page.getCanvas();
         Paint paint = new Paint();
         paint.setTextSize(12);
         paint.setAntiAlias(true);
 
-        final int[] y = {50}; // Starting Y position
+        Paint titlePaint = new Paint();
+        titlePaint.setTextSize(18);
+        titlePaint.setAntiAlias(true);
 
-        // Fixed X-coordinates for columns
+        int pageNum = 1;
+        int studentIndex = 0;
+
+        while (studentIndex < studentList.size()) {
+            PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(595, 842, pageNum).create();
+            PdfDocument.Page page = document.startPage(pageInfo);
+            Canvas canvas = page.getCanvas();
+
+            int nameX = 50;
+            int attendanceX = 300;
+            int mobileX = 400;
+
+            final int[] y = {50};
+
+            canvas.drawText("SIVESH CHESS ACADEMY", nameX, y[0], titlePaint);
+            y[0] += 25;
+            canvas.drawText("Attendance Report - " + dateString + " (Page " + pageNum + ")", nameX, y[0], paint);
+            y[0] += 30;
+
+            canvas.drawText("Student Name", nameX, y[0], paint);
+            canvas.drawText("Attendance", attendanceX, y[0], paint);
+            canvas.drawText("Mobile number", mobileX, y[0], paint);
+            y[0] += 20;
+            canvas.drawLine(nameX, y[0], 550, y[0], paint);
+            y[0] += 20;
+
+            final int currentStudentIndex = studentIndex;
+            final int currentPageNum = pageNum;
+
+            FirebaseDatabase.getInstance().getReference("attendance").child(dateString).get().addOnSuccessListener(dataSnapshot -> {
+                int studentsOnPage = 0;
+                int localStudentIndex = currentStudentIndex;
+                while (localStudentIndex < studentList.size() && studentsOnPage < STUDENTS_PER_PAGE) {
+                    Student student = studentList.get(localStudentIndex);
+                    String studentName = student.getName();
+                    String studentMobilenumber = student.getMobileNumber1();
+                    String studentId = student.getStudentId();
+                    Boolean isPresent = dataSnapshot.child(studentId).getValue(Boolean.class);
+
+                    canvas.drawText(studentName, nameX, y[0], paint);
+                    canvas.drawText(isPresent != null && isPresent ? "Present" : "Absent", attendanceX, y[0], paint);
+                    canvas.drawText(studentMobilenumber != null ? studentMobilenumber : "", mobileX, y[0], paint);
+                    y[0] += 20;
+                    studentsOnPage++;
+                    localStudentIndex++;
+                }
+
+                int tempStudentIndex = currentStudentIndex + studentsOnPage;
+
+                canvas.drawLine(attendanceX - 10, 80, attendanceX - 10, y[0], paint);
+                canvas.drawLine(mobileX - 10, 80, mobileX - 10, y[0], paint);
+
+                document.finishPage(page);
+
+                if (tempStudentIndex >= studentList.size()) {
+                    savePdf(document);
+                } else {
+                    generateNextPage(document, tempStudentIndex, currentPageNum + 1);
+                }
+            }).addOnFailureListener(e -> {
+                Log.e("PdfGenerator", "Failed to retrieve attendance data: " + e.getMessage());
+                Toast.makeText(context, "Failed to retrieve attendance data.", Toast.LENGTH_SHORT).show();
+                document.finishPage(page);
+                document.close();
+            });
+            return;
+        }
+    }
+
+    private void generateNextPage(PdfDocument document, int studentIndex, int pageNum) {
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(595, 842, pageNum).create();
+        PdfDocument.Page page = document.startPage(pageInfo);
+        Canvas canvas = page.getCanvas();
+
         int nameX = 50;
         int attendanceX = 300;
         int mobileX = 400;
 
-        // Increase font size for "SIVESH CHESS ACADEMY"
+        final int[] y = {50};
+        Paint paint = new Paint();
+        paint.setTextSize(12);
+        paint.setAntiAlias(true);
+
         Paint titlePaint = new Paint();
-        titlePaint.setTextSize(18); // Increased font size
+        titlePaint.setTextSize(18);
         titlePaint.setAntiAlias(true);
 
         canvas.drawText("SIVESH CHESS ACADEMY", nameX, y[0], titlePaint);
-        y[0] += 25; // Adjusted spacing after title
-        canvas.drawText("Attendance Report - " + dateString, nameX, y[0], paint);
+        y[0] += 25;
+        canvas.drawText("Attendance Report - " + dateString + " (Page " + pageNum + ")", nameX, y[0], paint);
         y[0] += 30;
 
-        // Draw header row
         canvas.drawText("Student Name", nameX, y[0], paint);
         canvas.drawText("Attendance", attendanceX, y[0], paint);
         canvas.drawText("Mobile number", mobileX, y[0], paint);
         y[0] += 20;
-        canvas.drawLine(nameX, y[0], 550, y[0], paint); // Header row line
+        canvas.drawLine(nameX, y[0], 550, y[0], paint);
         y[0] += 20;
 
+        final int currentStudentIndex = studentIndex;
+
         FirebaseDatabase.getInstance().getReference("attendance").child(dateString).get().addOnSuccessListener(dataSnapshot -> {
-            for (Student student : studentList) {
+            int studentsOnPage = 0;
+            int localStudentIndex = currentStudentIndex;
+            while (localStudentIndex < studentList.size() && studentsOnPage < STUDENTS_PER_PAGE) {
+                Student student = studentList.get(localStudentIndex);
                 String studentName = student.getName();
                 String studentMobilenumber = student.getMobileNumber1();
-                Boolean isPresent = dataSnapshot.child(studentName).getValue(Boolean.class);
+                String studentId = student.getStudentId();
+                Boolean isPresent = dataSnapshot.child(studentId).getValue(Boolean.class);
 
-                // Draw row data
                 canvas.drawText(studentName, nameX, y[0], paint);
                 canvas.drawText(isPresent != null && isPresent ? "Present" : "Absent", attendanceX, y[0], paint);
                 canvas.drawText(studentMobilenumber != null ? studentMobilenumber : "", mobileX, y[0], paint);
                 y[0] += 20;
+                studentsOnPage++;
+                localStudentIndex++;
             }
 
-            // Draw column lines
-            canvas.drawLine(attendanceX - 10, 80, attendanceX - 10, y[0], paint); // Attendance column line
-            canvas.drawLine(mobileX - 10, 80, mobileX - 10, y[0], paint); // Mobile column line
+            int tempStudentIndex = currentStudentIndex + studentsOnPage;
+
+            canvas.drawLine(attendanceX - 10, 80, attendanceX - 10, y[0], paint);
+            canvas.drawLine(mobileX - 10, 80, mobileX - 10, y[0], paint);
 
             document.finishPage(page);
-            savePdf(document);
+            if (tempStudentIndex >= studentList.size()) {
+                savePdf(document);
+            } else {
+                generateNextPage(document, tempStudentIndex, pageNum + 1);
+            }
         }).addOnFailureListener(e -> {
             Log.e("PdfGenerator", "Failed to retrieve attendance data: " + e.getMessage());
             Toast.makeText(context, "Failed to retrieve attendance data.", Toast.LENGTH_SHORT).show();
@@ -93,7 +181,10 @@ public class AttendancePdfGenerator {
     }
 
     private void savePdf(PdfDocument document) {
-        String fileName = "Attendance_" + dateString + ".pdf";
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String dateandtimeString = formatter.format(calendar.getTime());
+        String fileName = "Sivesh_Chess_Attendance_" + dateandtimeString + ".pdf";
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
 
         try {
@@ -101,13 +192,12 @@ public class AttendancePdfGenerator {
             document.writeTo(fos);
             document.close();
             fos.close();
-            Toast.makeText(context, "PDF saved to Downloads folder.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "PDF saved to Downloads folder. filename: " + fileName, Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             Log.e("PdfGenerator", "Error saving PDF: " + e.getMessage());
             Toast.makeText(context, "Error saving PDF.", Toast.LENGTH_SHORT).show();
         }
     }
-
     public static String getCurrentDateAsString() {
         Calendar calendar = Calendar.getInstance();
         Date currentDate = calendar.getTime();

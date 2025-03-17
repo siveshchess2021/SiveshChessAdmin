@@ -45,6 +45,6 @@ public class SignInActivity extends AppCompatActivity {
         // For example, check against a database or hardcoded credentials.
 
         // Hardcoded example (not recommended for production):
-        return username.equals("admin") && password.equals("siveshchess@123");
+        return username.equals("admin") && password.equals("test123");
     }
 }

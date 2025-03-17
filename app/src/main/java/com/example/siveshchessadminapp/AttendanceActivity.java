@@ -2,12 +2,12 @@ package com.example.siveshchessadminapp;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
-import android.content.Context;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,23 +20,26 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttendanceActivity extends AppCompatActivity {
+public class AttendanceActivity extends AppCompatActivity implements AttendanceAdapter.OnAttendanceChangeListener {
 
     private RecyclerView recyclerView;
     private AttendanceAdapter adapter;
     private List<Student> studentList;
     private DatabaseReference databaseReference;
+    private TextView presentCountTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_attendance); // Create activity_attendance.xml
+        setContentView(R.layout.activity_attendance);
+        getWindow().setStatusBarColor(ContextCompat.getColor(AttendanceActivity.this, R.color.app_purp));
 
-        recyclerView = findViewById(R.id.attendance_recycler_view); // Create attendance_recycler_view
+        presentCountTextView = findViewById(R.id.present_count_text_view); // Make sure you have this TextView in your activity_attendance.xml
+        recyclerView = findViewById(R.id.attendance_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         studentList = new ArrayList<>();
-        adapter = new AttendanceAdapter(studentList, this);
+        adapter = new AttendanceAdapter(studentList, this, this); // Pass 'this' as the OnAttendanceChangeListener
         recyclerView.setAdapter(adapter);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("student");
@@ -60,15 +63,21 @@ public class AttendanceActivity extends AppCompatActivity {
             }
         });
 
-        Button generatePdfButton =  findViewById(R.id.generate_pdf_button);
+        Button generatePdfButton = findViewById(R.id.generate_pdf_button);
         generatePdfButton.setOnClickListener(v -> {
-            Context context = this; // Get the context
+            Context context = this;
             if (context != null) {
-                // Use the context
                 String date = AttendancePdfGenerator.getCurrentDateAsString();
                 AttendancePdfGenerator pdfGenerator = new AttendancePdfGenerator(context, studentList, date);
                 pdfGenerator.generatePdf();
+                adapter.clearAttendanceStates();
+                adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void onPresentCountChanged(int presentCount) {
+        presentCountTextView.setText("Present Students: " + presentCount);
     }
 }

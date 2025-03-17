@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3C2690"
+    android:background="@color/yellow_theme"
     android:orientation="vertical"
     tools:context=".SignInActivity">
 
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:orientation="vertical"
-        android:background="#3C2690">
+        >
 
         <ImageView
             android:layout_width="250dp"
@@ -114,7 +114,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/buttons"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:text="Sign In!"
             android:textAllCaps="false"
             android:textColor="#feffff"
